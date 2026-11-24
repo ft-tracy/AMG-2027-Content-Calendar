@@ -1,7 +1,25 @@
 export type TaskLike = { due_date: string; completed: boolean };
 
-export const PLATFORMS = ["Instagram", "Facebook", "TikTok", "YouTube"] as const;
-export const CONTENT_TYPES = ["Static Post", "Carousel", "Reel", "Story", "Short", "YouTube Video", "Activation", "Foundation / CSR"] as const;
+export const PLATFORMS = ["Instagram", "Facebook", "TikTok", "YouTube", "Events"] as const;
+export const CONTENT_TYPES = ["Static Post", "Carousel", "Reel", "Story", "Short", "YouTube Video", "Activation", "Foundation / CSR", "Event"] as const;
+export const DEFAULT_REMINDER_MINUTES = 1440;
+export const REMINDER_PRESETS = [
+  { label: "1 day before", minutes: 1440 },
+  { label: "2 days before", minutes: 2880 },
+  { label: "3 days before", minutes: 4320 },
+] as const;
+
+export function customReminderMinutes(amount: number, unit: "hours" | "days") {
+  return Math.max(1, Math.floor(amount)) * (unit === "days" ? 1440 : 60);
+}
+
+export function reminderLabel(minutes: number) {
+  const days = minutes / 1440;
+  if (Number.isInteger(days)) return `${days} ${days === 1 ? "day" : "days"} before`;
+  const hours = minutes / 60;
+  if (Number.isInteger(hours)) return `${hours} ${hours === 1 ? "hour" : "hours"} before`;
+  return `${minutes} minutes before`;
+}
 
 export const STATUS_LABEL: Record<string, string> = {
   draft: "Draft",

@@ -1,5 +1,20 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1795524731215,
+      "tag": "0000_amg_access_calendar_campaign_notifications",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795524792913,
+      "tag": "0001_amg_workspace_features",
+      "breakpoints": true
+    }
+  ]
 }

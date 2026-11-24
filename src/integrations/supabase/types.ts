@@ -14,6 +14,115 @@ export type Database = {
   }
   public: {
     Tables: {
+      calendar_event_links: {
+        Row: {
+          google_event_id: string
+          task_id: string
+          updated_at: string
+        }
+        Insert: {
+          google_event_id: string
+          task_id: string
+          updated_at?: string
+        }
+        Update: {
+          google_event_id?: string
+          task_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calendar_event_links_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: true
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      calendar_events: {
+        Row: {
+          completed: boolean
+          created_at: string
+          description: string | null
+          end_at: string | null
+          end_date: string | null
+          id: string
+          location: string | null
+          source_calendar: string
+          start_at: string | null
+          start_date: string | null
+          timezone: string | null
+          title: string
+          uid: string
+          updated_at: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          description?: string | null
+          end_at?: string | null
+          end_date?: string | null
+          id?: string
+          location?: string | null
+          source_calendar?: string
+          start_at?: string | null
+          start_date?: string | null
+          timezone?: string | null
+          title: string
+          uid: string
+          updated_at?: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          description?: string | null
+          end_at?: string | null
+          end_date?: string | null
+          id?: string
+          location?: string | null
+          source_calendar?: string
+          start_at?: string | null
+          start_date?: string | null
+          timezone?: string | null
+          title?: string
+          uid?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      calendar_feed_tokens: {
+        Row: {
+          created_at: string
+          id: string
+          revoked_at: string | null
+          token_hash: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          revoked_at?: string | null
+          token_hash: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          revoked_at?: string | null
+          token_hash?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "calendar_feed_tokens_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       comments: {
         Row: {
           author_id: string
@@ -46,6 +155,87 @@ export type Database = {
           },
         ]
       }
+      monthly_campaigns: {
+        Row: {
+          key_message: string | null
+          month_start: string
+          monthly_goal: string | null
+          target_audience: string | null
+          title: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          key_message?: string | null
+          month_start: string
+          monthly_goal?: string | null
+          target_audience?: string | null
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          key_message?: string | null
+          month_start?: string
+          monthly_goal?: string | null
+          target_audience?: string | null
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          event_key: string
+          id: string
+          kind: string
+          message: string
+          read_at: string | null
+          task_id: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_key: string
+          id?: string
+          kind: string
+          message: string
+          read_at?: string | null
+          task_id?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_key?: string
+          id?: string
+          kind?: string
+          message?: string
+          read_at?: string | null
+          task_id?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -72,6 +262,38 @@ export type Database = {
           job_title?: string | null
         }
         Relationships: []
+      }
+      push_subscriptions: {
+        Row: {
+          auth_secret: string
+          created_at: string
+          endpoint: string
+          p256dh: string
+          user_id: string
+        }
+        Insert: {
+          auth_secret: string
+          created_at?: string
+          endpoint: string
+          p256dh: string
+          user_id: string
+        }
+        Update: {
+          auth_secret?: string
+          created_at?: string
+          endpoint?: string
+          p256dh?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "push_subscriptions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       task_files: {
         Row: {
@@ -129,6 +351,7 @@ export type Database = {
           hashtags: string | null
           id: string
           platforms: string[]
+          reminder_minutes: number
           status: Database["public"]["Enums"]["task_status"]
           title: string
           updated_at: string
@@ -147,6 +370,7 @@ export type Database = {
           hashtags?: string | null
           id?: string
           platforms?: string[]
+          reminder_minutes?: number
           status?: Database["public"]["Enums"]["task_status"]
           title: string
           updated_at?: string
@@ -165,6 +389,7 @@ export type Database = {
           hashtags?: string | null
           id?: string
           platforms?: string[]
+          reminder_minutes?: number
           status?: Database["public"]["Enums"]["task_status"]
           title?: string
           updated_at?: string
@@ -194,6 +419,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_due_task_notifications: { Args: never; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -202,10 +428,11 @@ export type Database = {
         Returns: boolean
       }
       is_approver: { Args: { _user_id: string }; Returns: boolean }
+      is_company_google_user: { Args: { _user_id: string }; Returns: boolean }
       is_team_member: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "director" | "manager" | "member"
+      app_role: "director" | "manager" | "member" | "admin"
       task_status:
         | "draft"
         | "pending_review"
@@ -339,7 +566,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["director", "manager", "member"],
+      app_role: ["director", "manager", "member", "admin"],
       task_status: [
         "draft",
         "pending_review",
