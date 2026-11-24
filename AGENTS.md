@@ -32,3 +32,6 @@ use the editor.
 - Approval rules are enforced in the database (`guard_task_approval` trigger + `is_approver`), not only in the UI, so they can't be bypassed from the browser.
 - The first account to sign up is made Marketing Manager automatically; everyone after is a team member until an approver changes their role on the Team page.
 - Data is read client-side via the Supabase client with RLS (all signed-in team members share one workspace); signed-in pages live under `src/routes/_authenticated/`.
+- Task changes and privileged account actions use authenticated server functions so calendar sync and notification side effects stay authorized and consistent.
+- Public calendar subscriptions use revocable, user-scoped opaque tokens so calendar apps can read events without exposing workspace sessions.
+- Install support is manifest-only; a dedicated messaging worker handles push so it stays separate from app-shell offline caching.
