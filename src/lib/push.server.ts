@@ -46,9 +46,14 @@ export async function getVapidPublicKey() {
 }
 
 async function hkdf(ikm: Uint8Array, salt: Uint8Array, info: Uint8Array, length: number) {
-  const key = await crypto.subtle.importKey("raw", ikm, "HKDF", false, ["deriveBits"]);
+  const toArrayBuffer = (bytes: Uint8Array) => {
+    const buffer = new ArrayBuffer(bytes.byteLength);
+    new Uint8Array(buffer).set(bytes);
+    return buffer;
+  };
+  const key = await crypto.subtle.importKey("raw", toArrayBuffer(ikm), "HKDF", false, ["deriveBits"]);
   return new Uint8Array(await crypto.subtle.deriveBits(
-    { name: "HKDF", hash: "SHA-256", salt, info },
+    { name: "HKDF", hash: "SHA-256", salt: toArrayBuffer(salt), info: toArrayBuffer(info) },
     key,
     length * 8,
   ));
