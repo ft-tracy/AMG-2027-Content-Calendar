@@ -42,6 +42,7 @@ export type Database = {
       }
       calendar_events: {
         Row: {
+          attendee_ids: string[]
           completed: boolean
           created_at: string
           description: string | null
@@ -58,6 +59,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          attendee_ids?: string[]
           completed?: boolean
           created_at?: string
           description?: string | null
@@ -74,6 +76,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          attendee_ids?: string[]
           completed?: boolean
           created_at?: string
           description?: string | null
@@ -151,6 +154,62 @@ export type Database = {
             columns: ["task_id"]
             isOneToOne: false
             referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_deliverables: {
+        Row: {
+          assignee_ids: string[]
+          completed: boolean
+          created_at: string
+          created_by: string
+          event_id: string
+          id: string
+          kind: string
+          notes: string | null
+          platform: string | null
+          scheduled_date: string
+          scheduled_time: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assignee_ids?: string[]
+          completed?: boolean
+          created_at?: string
+          created_by?: string
+          event_id: string
+          id?: string
+          kind: string
+          notes?: string | null
+          platform?: string | null
+          scheduled_date: string
+          scheduled_time?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assignee_ids?: string[]
+          completed?: boolean
+          created_at?: string
+          created_by?: string
+          event_id?: string
+          id?: string
+          kind?: string
+          notes?: string | null
+          platform?: string | null
+          scheduled_date?: string
+          scheduled_time?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_deliverables_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "calendar_events"
             referencedColumns: ["id"]
           },
         ]

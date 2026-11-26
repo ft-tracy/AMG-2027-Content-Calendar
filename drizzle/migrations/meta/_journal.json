@@ -15,6 +15,13 @@
       "when": 1795524792913,
       "tag": "0001_amg_workspace_features",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795671102593,
+      "tag": "0002_event_operations_and_reminder_timing",
+      "breakpoints": true
     }
   ]
 }
